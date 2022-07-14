@@ -20,6 +20,6 @@ d1 = np.sqrt(np.sum((Node_arr - Target_arr)**2, axis=1)) + noise_d1     # 获得
 A = -2*(Node_arr - Node_arr[-1, :])
 b = d1**2 - d1[-1]**2 + np.sum(Node_arr[-1]**2 - Node_arr**2, axis=1)
 
-X = np.dot(np.linalg.inv(np.dot(A.transpose(), A)),np.dot(A.transpose(),b))
+X = np.dot(np.linalg.inv(np.dot(A.transpose(), A)), np.dot(A.transpose(),b))
 
 

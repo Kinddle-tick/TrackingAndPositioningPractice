@@ -104,37 +104,31 @@ def circle(x, y, r):
 
 # endregion
 
-painter = plt.figure(FigureClass=Painter)
-# assert type(painter) == Painter
-ax = painter.add_subplot(1, 1, 1)
+painter = Painter.Painter_generator()
+painter_axes = painter.add_one_plot(1, 1, 1)
 pgc = PointGroupController()
 nodes_array = lst2array(nodes)
-pgc.add_data("node_loc", nodes_array, ["x", "y"])\
-    .add_data("Est_target",[[Est_target.x,Est_target.y]],["x","y"])\
-    .add_data("True_target", [[target.x, target.y]], ["x", "y"])
-# ax.add_draw_data("nodes",)
-ax.add_draw_data("node", pgc()["node_loc"], "scatter", "Observation Station") \
-    .add_iterable_decoration("c", "g").add_iterable_decoration("s", 30)
+pgc.add_data("node_loc", nodes_array)\
+    .add_data("Est_target", [[Est_target.x,Est_target.y]])\
+    .add_data("True_target", [[target.x, target.y]])
 
-ax.add_draw_data("node_str", pgc()["node_loc"], "text") \
-    .add_iterable_decoration("s", [f"Node_{i}" for i in range(len(nodes_array))])
+painter_axes.add_draw_data("node", pgc["node_loc"], "scatter", "Observation Station") \
+    .decorate("c", "g").decorate("s", 30)
 
-ax.add_draw_data("Est_target", pgc()["Est_target"], "scatter", "Estimate Position") \
-    .add_iterable_decoration("c", "orange").add_iterable_decoration("s", 40).add_iterable_decoration("marker", "s")
+painter_axes.add_draw_data("node_str", pgc["node_loc"], "text") \
+    .decorate("s", [f"Node_{i}" for i in range(len(nodes_array))])
 
-ax.add_draw_data("True_target", pgc()["True_target"], "scatter", "Target Position") \
-    .add_iterable_decoration("c", "r").add_iterable_decoration("s", 40).add_iterable_decoration("marker", "^")
+painter_axes.add_draw_data("Est_target", pgc["Est_target"], "scatter", "Estimate Position") \
+    .decorate("c", "orange").decorate("s", 40).decorate("marker", "s")
 
-ax.add_draw_data("True_Est_link", pgc()["Est_target"].append(pgc()["True_target"]), "plot") \
-    .add_unique_decoration("c", "b")
+painter_axes.add_draw_data("True_target", pgc["True_target"], "scatter", "Target Position") \
+    .decorate("c", "r").decorate("s", 40).decorate("marker", "^")
 
-ax.add_draw_data("circle", PainterWidget.circle(target.x,target.y,d), "plot").add_unique_decoration("c","pink")
+painter_axes.add_draw_data("True_Est_link", pgc["Est_target"].append(pgc["True_target"]), "plot") \
+    .decorate("c", "black",unique=True)
 
-# for idx in range(len(nodes_array)):
-#     xy = nodes_array[idx]
-#     ax.add_draw_data("node_str", xy, "text") \
-#         .add_decoration("s", f"Node_{idx}", idx)
-ax.draw_all()
-ax.get_axes().set_xlim(0, Width)
-ax.get_axes().set_ylim(0, Length)
+painter_axes.add_draw_data("circle", PainterAxes.circle(target.x, target.y, d), "plot").decorate("c", "pink",unique=True)
+
+painter_axes.xlim(0, Width)
+painter_axes.ylim(0, Length)
 painter.show()

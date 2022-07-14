@@ -1,6 +1,6 @@
-from .PointGroup import PointGroupController
+from .PointGroupController import PointGroupController
 from .Painter import Painter
-from .PainterWidget import PainterWidget
+from .PainterAxes import PainterAxes
 
 
 

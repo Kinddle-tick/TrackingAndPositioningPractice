@@ -2,10 +2,10 @@ import matplotlib.figure
 import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
-
-from PointGroup import PointGroupController
-from PainterWidget import PainterWidget
-from Painter import Painter
+from showmaker import *
+# from PointGroupController import PointGroupController
+# from PainterAxes import PainterAxes
+# from Painter import Painter
 """
 示例。。
 """
@@ -33,7 +33,7 @@ if __name__ == '__main__':
 
     # ax.get_axes().scatter(**pgc()["base"].get_kwargs())
     dec = ax.add_draw_data("point1", pgc()["base"], "scatter","point")
-    dec.add_iterable_decoration("c", "r")
+    dec._add_iterable_decoration("c", "r")
     ax.draw_all()
     # fig.imshow(pt)
     pt.show()
