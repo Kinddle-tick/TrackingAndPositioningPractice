@@ -1,6 +1,6 @@
 import numpy as np
 from matplotlib import pyplot as plt
-
+from showmaker.template.Positioning2D import Positioning2D
 # 定位初始化
 
 Length = 100
@@ -23,3 +23,12 @@ b = d1**2 - d1[-1]**2 + np.sum(Node_arr[-1]**2 - Node_arr**2, axis=1)
 X = np.dot(np.linalg.inv(np.dot(A.transpose(), A)), np.dot(A.transpose(),b))
 
 
+p2d = Positioning2D()
+p2d.add_observations(Node_arr)
+p2d.add_target([Target_arr])
+p2d.add_estimate([X])
+# p2d.add_circle(target.x, target.y, d)
+ax = p2d.get_axes()
+ax.xlim(0, Width)
+ax.ylim(0, Length)
+p2d.show()

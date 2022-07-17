@@ -14,7 +14,9 @@ class PointGroupController:
             self.point_group_dict.update({name: new_data})
         else:
             if data_form is None:
-                if data.shape[1] == 2:
+                if data.shape[1] == 0:
+                    data_form = []
+                elif data.shape[1] == 2:
                     data_form = ["x", "y"]
                 elif data.shape[1] == 3:
                     data_form = ["x", "y", "z"]

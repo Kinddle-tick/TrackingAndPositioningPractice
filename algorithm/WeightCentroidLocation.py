@@ -1,11 +1,14 @@
-# 加权质心算法 2d
-# 因为涉及到信噪比所以想要试试看
-import random
+"""
+加权质心算法 2d
+因为涉及到信噪比所以想要试试看
+此外这也是展示showmaker的使用方法的位置
+"""
 
+import random
 import numpy as np
 from matplotlib import pyplot as plt
 from showmaker import *
-
+from showmaker.template.Positioning2D import Positioning2D
 Length = 100  # 场景空间-长度 m
 Width = 100  # 场景空间-宽度 m
 d = 50  # 观测站观测距离 m
@@ -104,31 +107,48 @@ def circle(x, y, r):
 
 # endregion
 
-painter = Painter.Painter_generator()
-painter_axes = painter.add_one_plot(1, 1, 1)
-pgc = PointGroupController()
+# region 全自定义方法
+# painter = Painter.Painter_generator()
+# painter_axes = painter.add_one_plot(1, 1, 1)
+# pgc = PointGroupController()
+# nodes_array = lst2array(nodes)
+# pgc.add_data("node_loc", nodes_array)\
+#     .add_data("Est_target", [[Est_target.x,Est_target.y]])\
+#     .add_data("True_target", [[target.x, target.y]])
+#
+# painter_axes.add_draw_data("node_str", pgc["node_loc"], "text") \
+#     .decorate("s", [f"Node_{i}" for i in range(len(nodes_array))])
+#
+# painter_axes.add_draw_data("node", pgc["node_loc"], "scatter", "Observation Station") \
+#     .decorate("c", "g").decorate("s", 30)
+#
+# painter_axes.add_draw_data("Est_target", pgc["Est_target"], "scatter", "Estimate Position") \
+#     .decorate("c", "orange").decorate("s", 40).decorate("marker", "s")
+#
+# painter_axes.add_draw_data("True_target", pgc["True_target"], "scatter", "Target Position") \
+#     .decorate("c", "r").decorate("s", 40).decorate("marker", "^")
+#
+# painter_axes.add_draw_data("True_Est_link", pgc["Est_target"].append(pgc["True_target"]), "plot") \
+#     .decorate("c", "black", unique=True)
+#
+# painter_axes.add_draw_data("circle", PainterAxes.circle(target.x, target.y, d), "plot").decorate("c", "pink",unique=True)
+#
+# painter_axes.xlim(0, Width)
+# painter_axes.ylim(0, Length)
+# painter.show()
+
+# endregion
+
+# region 模板方法
 nodes_array = lst2array(nodes)
-pgc.add_data("node_loc", nodes_array)\
-    .add_data("Est_target", [[Est_target.x,Est_target.y]])\
-    .add_data("True_target", [[target.x, target.y]])
-
-painter_axes.add_draw_data("node", pgc["node_loc"], "scatter", "Observation Station") \
-    .decorate("c", "g").decorate("s", 30)
-
-painter_axes.add_draw_data("node_str", pgc["node_loc"], "text") \
-    .decorate("s", [f"Node_{i}" for i in range(len(nodes_array))])
-
-painter_axes.add_draw_data("Est_target", pgc["Est_target"], "scatter", "Estimate Position") \
-    .decorate("c", "orange").decorate("s", 40).decorate("marker", "s")
-
-painter_axes.add_draw_data("True_target", pgc["True_target"], "scatter", "Target Position") \
-    .decorate("c", "r").decorate("s", 40).decorate("marker", "^")
-
-painter_axes.add_draw_data("True_Est_link", pgc["Est_target"].append(pgc["True_target"]), "plot") \
-    .decorate("c", "black",unique=True)
-
-painter_axes.add_draw_data("circle", PainterAxes.circle(target.x, target.y, d), "plot").decorate("c", "pink",unique=True)
-
-painter_axes.xlim(0, Width)
-painter_axes.ylim(0, Length)
-painter.show()
+p2d = Positioning2D()
+p2d.add_observations(nodes_array)
+p2d.add_target([[target.x, target.y]])
+p2d.add_estimate([[Est_target.x,Est_target.y]])
+p2d.link_enable(True)
+p2d.add_circle(target.x, target.y, d)
+ax = p2d.get_axes()
+ax.xlim(0, Width)
+ax.ylim(0, Length)
+p2d.show()
+# endregion

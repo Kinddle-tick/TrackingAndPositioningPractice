@@ -34,6 +34,11 @@ class PainterAxes:
                                           "label": label}})
         return self.draw_data[name]["data"]
 
+    def remove_draw_data(self, name):
+        if name in self.draw_data:
+            return self.draw_data.pop("name")
+        else:
+            return None
     def draw_all(self):
         self.clear()
         for key in self.draw_data:
