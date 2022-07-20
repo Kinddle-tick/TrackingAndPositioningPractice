@@ -18,22 +18,33 @@ class Painter(matplotlib.figure.Figure):
 
     def __init__(self, *args, hook_plt=True, **kwargs):
         super().__init__(*args, **kwargs)
+        plt.rcParams['font.sans-serif'] = ['Heiti TC']  # 用来正常显示中文标签
+        plt.rcParams['axes.unicode_minus'] = False  # 用来正常显示负号
 
     def subplots(self, *args, **kwargs):
         kwargs.update({"squeeze": False})           # 固定输出形式为2维array 适合绘制比较规整的形式
         axs = super().subplots(*args, **kwargs)     # 会调用add_subplot
         return axs
 
-    def add_subplot(self, *args, **kwargs) -> PainterAxes:
-        ax = super().add_subplot(*args, **kwargs)
-        # print(1)
-        # ax = self._bind_vectorization(ax)
-        ax_bind = PainterAxes(ax)
+    def add_subplot(self, *args, dim=2, **kwargs) -> PainterAxes:
+        if "projection" in kwargs:
+            if kwargs["projection"] == "3d":
+                ax = super().add_subplot(*args, **kwargs)
+                ax_bind = PainterAxes(ax, 3)
+        elif dim == 2:
+            ax = super().add_subplot(*args, **kwargs)
+            ax_bind = PainterAxes(ax)
+        elif dim == 3:
+            kwargs["projection"] = "3d"
+            ax = super().add_subplot(*args, **kwargs)
+            ax_bind = PainterAxes(ax, 3)
+        else:
+            raise TypeError("only 2d/3d axes usable")
         self.painter_widget.update({self.now_idx: ax_bind})
         self.now_idx += 1
         return ax_bind
 
-    def add_one_plot(self, *args, **kwargs) -> PainterAxes:
+    def add_one_plot(self, *args,dim=2, **kwargs) -> PainterAxes:
         return self.add_subplot(*args, **kwargs)
 
     def show(self, warn=True):

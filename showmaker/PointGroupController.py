@@ -1,6 +1,7 @@
 import numpy as np
 from .RowPointGroup import RowPointGroup
 
+
 class PointGroupController:
     def __init__(self):
         self.point_group_dict = {}

@@ -1,5 +1,5 @@
 """
-对二维上的目标定位绘图的模板
+对三维上的目标定位绘图的模板
 必须包括以下基本数据：
     观测点
     目标点
@@ -7,23 +7,22 @@
 可选的选项有：
     预测点与目标点之间是否有连线（此时预测点与目标点应当等长且一一对应）
     在特定位置绘制园
-
 """
 import numpy as np
 import pandas as pd
 from showmaker import *
 
 
-class Positioning2D:
+class Positioning3D:
     def __init__(self):
         self.painter = Painter.Painter_generator()
-        self.painter_axes = self.painter.add_one_plot(1, 1, 1)
+        self.painter_axes = self.painter.add_one_plot(1, 1, 1, projection='3d')
         self.pgc = PointGroupController()
         self._pgc_init()
 
     def _pgc_init(self):
-        self.pgc.add_data("observe_node", np.empty([0, 2])).add_data("estimate_target", np.empty([0, 2])) \
-            .add_data("true_target", np.empty([0, 2]))
+        self.pgc.add_data("observe_node", np.empty([0, 3])).add_data("estimate_target", np.empty([0, 3])) \
+            .add_data("true_target", np.empty([0, 3]))
 
     def add_observations(self, data_array):
         return self.pgc.add_data("observe_node", data_array)

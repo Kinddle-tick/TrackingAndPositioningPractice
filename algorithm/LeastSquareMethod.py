@@ -1,3 +1,8 @@
+#!/usr/bin/env python
+# -*- coding:utf-8 -*-
+# @FileName  :RssiEstimate.py
+# @Time      :2022/7/18 8:30 PM
+# @Author    :Kinddle
 """
 铜导线温度与电阻的测量值：
 i   0       1       2       3       4       5       6

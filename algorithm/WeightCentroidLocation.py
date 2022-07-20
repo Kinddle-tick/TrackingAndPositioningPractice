@@ -1,3 +1,8 @@
+#!/usr/bin/env python
+# -*- coding:utf-8 -*-
+# @FileName  :RssiEstimate.py
+# @Time      :2022/7/18 8:30 PM
+# @Author    :Kinddle
 """
 加权质心算法 2d
 因为涉及到信噪比所以想要试试看
