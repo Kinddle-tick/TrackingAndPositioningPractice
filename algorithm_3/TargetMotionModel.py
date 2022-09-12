@@ -22,7 +22,7 @@ G = np.array([[dt ** 2 / 2, 0],
               [dt, 0],
               [0, dt ** 2 / 2],
               [0, dt]])
-Q = 1e-5 *1e4
+Q = 1e-5 *1e5
 X = np.zeros([4, Time])
 x0 = y0 = 0
 vx = 0.8
