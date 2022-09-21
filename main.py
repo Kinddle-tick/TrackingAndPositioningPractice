@@ -1,39 +1,36 @@
-# This is a sample Python script.
+import re
 
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
 
-from algorithm_3 import *
-from showmaker import *
+def take_first(elem):
+    return elem[0]
 
-def f(a,b,c):
-    ba = b-a
-    ca = c-a
-    if a > 1:
-        return 2*(ba+ca)+min(b,c)+(a-1)
+
+raw_data={}
+
+len = int(input(""))
+for i in range(len):
+    tmp_str = input(f"")
+    tmp_list = re.split(',', tmp_str)
+    up, down = [int(j) for j in tmp_list]
+    if up in raw_data.keys():
+        raw_data[up]+=1
     else:
-        return 2*(ba+ca)+min(b,c)+(a-1)
+        raw_data.update({up:1})
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    length = 7
-    width = 7
+    if down in raw_data.keys():
+        raw_data[down]-=1
+    else:
+        raw_data.update({down:-1})
 
-    #square
-    sum_sq = 0
-    for tmp_l in range(1,length+1):
-        for tmp_w in range(1,width+1):
-            add_tmp = (length-tmp_l+1)*(width-tmp_w+1)
-            sum_sq += add_tmp
-            if tmp_w == tmp_l:
-                sum_sq += 2 * (tmp_w-1) *add_tmp
-            else:
-                sum_sq += 2 * add_tmp
-            # if tmp_w == tmp_l:
-            #     sum_sq += add_tmp
-            # else:
-            #     sum_sq += add_tmp
-            print((length-tmp_l+1), (width-tmp_w+1))
-    print(sum_sq)
+data_list = list(raw_data.items())
+data_list.sort(key=take_first)
+rtn = 0
+last_key = 0
+level = 0
+for key,change in data_list:
+    if level == 1:
+        rtn += key-last_key
+    level += change
+    last_key = key
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+print(rtn)
